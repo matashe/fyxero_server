@@ -4,7 +4,10 @@ export const signJwt = (payload: any, options?: jsonwebtoken.SignOptions) => {
   const privateKey = process.env.ENC_PRIVATE_KEY as string
 
   try {
-    return jsonwebtoken.sign(payload, privateKey, options)
+    return jsonwebtoken.sign(payload, privateKey, {
+      algorithm: 'RS256',
+      ...options,
+    })
   } catch (error) {
     throw new Error(`Error signing JWT: ${error}`)
   }

@@ -1,10 +1,12 @@
-import { AnySchema, parse } from 'valibot'
+import { ObjectSchema, parse } from 'valibot'
 import { Request, Response, NextFunction } from 'express'
+import logger from './../utils/logger.utils'
 
 const validate =
-  (schema: AnySchema) => (req: Request, res: Response, next: NextFunction) => {
+  (schema: ObjectSchema<any, any>) =>
+  (req: Request, res: Response, next: NextFunction) => {
     try {
-      req.body = parse(req.body, schema)
+      parse(schema, req.body)
       next()
     } catch (error: any) {
       res.status(400).json({ error: error.message })

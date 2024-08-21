@@ -26,7 +26,7 @@ model User {
 }
 
 model Session {
-  id           String   @id @default(uuid())
+  id           String   @id
   token        String   @unique
   refreshToken String   @unique
   valid        Boolean  @default(true)
@@ -44,13 +44,6 @@ model Address {
   country   String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Logs {
-  id        String   @id @default(uuid())
-  message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

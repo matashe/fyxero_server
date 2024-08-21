@@ -1,13 +1,26 @@
 import { Router } from 'express'
 
+// MIDDLEWARES
+import validate from './../middleware/validate'
+
+// SCHEMAS
+import { createSessionSchema } from '../schemas/session.schema'
+
+// CONTROLLERS
+import { createSessionHandler } from '../controllers/session.controller'
+
 const sessionRouter = Router()
 
 // Basic creation routes
-sessionRouter.post('/api/sessions/create', (req, res) => {
-  res.send('Login')
-})
+sessionRouter.post(
+  '/api/sessions/',
+  validate(createSessionSchema),
+  (req, res) => {
+    createSessionHandler(req, res)
+  }
+)
 
-sessionRouter.delete('/api/sessions/destroy', (req, res) => {
+sessionRouter.delete('/api/sessions/', (req, res) => {
   res.send('Logout')
 })
 

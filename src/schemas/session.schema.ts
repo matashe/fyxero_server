@@ -9,3 +9,9 @@ export const createSessionSchema = v.object({
     password: v.pipe(v.string('Password must be a string.'), v.minLength(8)),
   }),
 })
+
+export const refreshSessionSchema = v.object({
+  data: v.object({
+    refreshToken: v.string('Refresh token must be a string.'),
+  }),
+})

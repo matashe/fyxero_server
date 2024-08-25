@@ -15,7 +15,8 @@ import {
 
 const sessionRouter = Router()
 
-// Basic creation routes
+// BASIC ROUTES
+// Create session
 sessionRouter.post(
   '/api/sessions/',
   validate(createSessionSchema),
@@ -24,11 +25,15 @@ sessionRouter.post(
   }
 )
 
+// Invalidate session
 sessionRouter.delete('/api/sessions/', authorize, (req, res) => {
   deleteSessionHandler(req, res)
 })
 
-// OAuth creation routes
+// Refresh session
+sessionRouter.put('/api/sessions/', (req, res) => {})
+
+// OAuth routes
 // Google OAuth
 sessionRouter.get('/api/sessions/oauth/google', (req, res) => {
   res.send('Google OAuth Login')

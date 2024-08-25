@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
-const deserializeUser = async (
+const deserializeUserData = async (
   req: Request,
   res: Response,
   next: NextFunction

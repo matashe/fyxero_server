@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
-import { signJwt } from '../utils/jwt.utils'
+import { signJwt, verifyJwt } from '../utils/jwt.utils'
 import { v4 } from 'uuid'
 import logger from './../utils/logger.utils'
 
@@ -65,5 +65,31 @@ export const invalidateSessionService = async (sessionId: string) => {
     })
   } catch (error: any) {
     throw new Error(`Error invalidating session: ${error.message}`)
+  }
+}
+
+export const refreshSessionService = async (refreshToken: string) => {
+  try {
+    const { user, sessionId } = verifyJwt(refreshToken) as any
+
+    const session = await prisma.session.findUnique({
+      where: {
+        id: sessionId,
+      },
+    })
+
+    if (!session) {
+      throw new Error('Session not found')
+    }
+
+    if (!session.valid) {
+      throw new Error('Session is invalid')
+    }
+
+    const token = signJwt({ user, sessionId }, { expiresIn: '15m' })
+
+    return { token }
+  } catch (error: any) {
+    throw new Error(`Error refreshing session: ${error.message}`)
   }
 }

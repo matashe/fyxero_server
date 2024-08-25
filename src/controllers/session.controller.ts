@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
-import { createSessionService } from '../services/session.service'
+import {
+  createSessionService,
+  invalidateSessionService,
+} from '../services/session.service'
 import logger from './../utils/logger.utils'
 
 export const createSessionHandler = async (req: Request, res: Response) => {
@@ -19,4 +22,8 @@ export const createSessionHandler = async (req: Request, res: Response) => {
   } catch (error: any) {
     return res.status(500).json({ data: { message: error.message } })
   }
+}
+
+export const deleteSessionHandler = async (req: Request, res: Response) => {
+  res.status(200).json({ data: 'Session deleted' }).send
 }

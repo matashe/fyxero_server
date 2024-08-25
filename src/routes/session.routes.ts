@@ -2,12 +2,16 @@ import { Router } from 'express'
 
 // MIDDLEWARES
 import validate from './../middleware/validate'
+import authorize from './../middleware/authorize'
 
 // SCHEMAS
 import { createSessionSchema } from '../schemas/session.schema'
 
 // CONTROLLERS
-import { createSessionHandler } from '../controllers/session.controller'
+import {
+  createSessionHandler,
+  deleteSessionHandler,
+} from '../controllers/session.controller'
 
 const sessionRouter = Router()
 
@@ -20,8 +24,8 @@ sessionRouter.post(
   }
 )
 
-sessionRouter.delete('/api/sessions/', (req, res) => {
-  res.send('Logout')
+sessionRouter.delete('/api/sessions/', authorize, (req, res) => {
+  deleteSessionHandler(req, res)
 })
 
 // OAuth creation routes

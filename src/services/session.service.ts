@@ -52,3 +52,18 @@ export const createSessionService = async (email: string, password: string) => {
     throw new Error(`Error creating session: ${error.message}`)
   }
 }
+
+export const invalidateSessionService = async (sessionId: string) => {
+  try {
+    await prisma.session.update({
+      where: {
+        id: sessionId,
+      },
+      data: {
+        valid: false,
+      },
+    })
+  } catch (error: any) {
+    throw new Error(`Error invalidating session: ${error.message}`)
+  }
+}

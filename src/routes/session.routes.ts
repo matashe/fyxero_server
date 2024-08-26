@@ -5,12 +5,16 @@ import validate from './../middleware/validate'
 import authorize from './../middleware/authorize'
 
 // SCHEMAS
-import { createSessionSchema } from '../schemas/session.schema'
+import {
+  createSessionSchema,
+  refreshSessionSchema,
+} from '../schemas/session.schema'
 
 // CONTROLLERS
 import {
   createSessionHandler,
   deleteSessionHandler,
+  refreshSessionHandler,
 } from '../controllers/session.controller'
 
 const sessionRouter = Router()
@@ -31,7 +35,14 @@ sessionRouter.delete('/api/sessions/', authorize, (req, res) => {
 })
 
 // Refresh session
-sessionRouter.put('/api/sessions/', (req, res) => {})
+sessionRouter.put(
+  '/api/sessions/',
+  authorize,
+  validate(refreshSessionSchema),
+  (req, res) => {
+    refreshSessionHandler(req, res)
+  }
+)
 
 // OAuth routes
 // Google OAuth
